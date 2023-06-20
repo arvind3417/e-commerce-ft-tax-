@@ -4,7 +4,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { httpResponse } from "./helpers";
-
+import { userRouter } from "./routes/userRoutes";
+import { authRouter } from "./routes/authRoutes";
 import { routeNotFound } from "./middleware/routeNotFound";
 import { errorHandler } from "./middleware/errorHandler";
 
@@ -22,7 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes
-
+app.use(`${BASEURL}/auth`, authRouter);
+app.use(`${BASEURL}/users`, userRouter);
 app.use("/ok", (_req, res) =>
   res.status(200).send(httpResponse(true, "OK", {}))
 );
