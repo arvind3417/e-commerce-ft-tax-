@@ -23,7 +23,7 @@ export const genAccessToken = (user: UserDocument | SerializedUser) => {
     throw new Error("JWT_ACCESS_SECRET not found");
   }
   return jwt.sign(userToken, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: "15s", // Set the access token expiration time
+    expiresIn: "15m", // Set the access token expiration time
   });
 };
 
@@ -59,26 +59,10 @@ export const verifyAccessToken = (token: string): SerializedUser => {
   }
 };
 
-export const verifyRefreshToken = (token: string): SerializedUser => {
-  if (!process.env.JWT_REFRESH_SECRET) {
-    console.log("JWT_REFRESH_SECRET not found");
-    throw new Error("JWT_REFRESH_SECRET not found");
-  }
-  try {
-    const deserializedUser = jwt.verify(
-      token,
-      process.env.JWT_REFRESH_SECRET
-    ) as SerializedUser;
-    return deserializedUser;
-  } catch (error) {
-    throw new Error("Invalid refresh token");
-  }
-};
 
 export default {
   serializeUser,
   genAccessToken,
   genRefreshToken,
-  verifyAccessToken,
-  verifyRefreshToken,
+  verifyAccessToken
 };
