@@ -7,17 +7,6 @@
     "start": "ts-node --transpileOnly ./src/app.ts",
     "dev": "nodemon ./src/app.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Varlyq/igl_network.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Varlyq/igl_network/issues"
-  },
-  "homepage": "https://github.com/Varlyq/igl_network#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
