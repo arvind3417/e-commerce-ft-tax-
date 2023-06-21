@@ -3,12 +3,13 @@ import jwt from "jsonwebtoken";
 export interface SerializedUser {
   userId: string;
   userEmail: string;
+  isAdmin:boolean;
 }
 
 type UserDocument = any;
 
 export const serializeUser = (user: UserDocument): SerializedUser => {
-  return { userId: user._id, userEmail: user.email };
+  return { userId: user._id, userEmail: user.email , isAdmin: user.isAdmin};
 };
 
 export const genAccessToken = (user: UserDocument | SerializedUser) => {
@@ -17,13 +18,15 @@ export const genAccessToken = (user: UserDocument | SerializedUser) => {
     : {
         userId: (user as SerializedUser).userId,
         userEmail: (user as SerializedUser).userEmail,
+        isAdmin: (user as SerializedUser).isAdmin,
+
       };
   if (!process.env.JWT_ACCESS_SECRET) {
     console.log("JWT_ACCESS_SECRET not found");
     throw new Error("JWT_ACCESS_SECRET not found");
   }
   return jwt.sign(userToken, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: "15m", // Set the access token expiration time
+    // expiresIn: "15m", 
   });
 };
 
@@ -33,13 +36,14 @@ export const genRefreshToken = (user: UserDocument | SerializedUser) => {
     : {
         userId: (user as SerializedUser).userId,
         userEmail: (user as SerializedUser).userEmail,
+        isAdmin: (user as SerializedUser).isAdmin,
       };
   if (!process.env.JWT_REFRESH_SECRET) {
     console.log("JWT_REFRESH_SECRET not found");
     throw new Error("JWT_REFRESH_SECRET not found");
   }
   return jwt.sign(userToken, process.env.JWT_REFRESH_SECRET, {
-    expiresIn: "7d", // Set the refresh token expiration time
+    // expiresIn: "7d", 
   });
 };
 

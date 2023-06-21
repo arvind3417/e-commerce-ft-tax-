@@ -7,7 +7,7 @@ import { httpResponse } from "./helpers";
 import { userRouter } from "./routes/userRoutes";
 import { authRouter } from "./routes/authRoutes";
 import { productRouter } from "./routes/productRoutes";
-
+import { cartController } from "./controllers/cartController";
 import { routeNotFound } from "./middleware/routeNotFound";
 import { errorHandler } from "./middleware/errorHandler";
 
@@ -16,7 +16,7 @@ import { PORT, BASEURL } from "./constants";
 
 import { connectDB } from "./db";
 
-// Use express app
+// Use express app 
 const app = express();
 
 // Middleware
@@ -25,8 +25,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes
+app.post('/users/:userId/cart/:itemId/:cartType',cartController)
 app.use(`${BASEURL}/products`, productRouter);
-app.use(`${BASEURL}/auth`, authRouter);
+app.use(`${BASEURL}/auth`, authRouter); 
 app.use(`${BASEURL}/users`, userRouter);
 app.use("/ok", (_req, res) =>
   res.status(200).send(httpResponse(true, "OK", {}))

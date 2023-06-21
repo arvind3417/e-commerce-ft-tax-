@@ -7,8 +7,9 @@ import {
     deleteProduct
 } from "../controllers/productController";
 import { authenticateToken } from "../middleware/authToken";
+import { adminMiddleware } from "../middleware/isAdmin";
 
 export const productRouter = express.Router();
 
-productRouter.route("/").get(getProducts).post(authenticateToken,postProduct);
-productRouter.route("/:id").get(authenticateToken,getProduct).patch(authenticateToken,patchProduct).delete(authenticateToken,deleteProduct);
+productRouter.route("/").get(getProducts).post(authenticateToken,adminMiddleware,postProduct);
+productRouter.route("/:id").get(authenticateToken,getProduct).patch(authenticateToken,adminMiddleware,patchProduct).delete(authenticateToken,adminMiddleware,deleteProduct);
