@@ -11,5 +11,5 @@ import { adminMiddleware } from "../middleware/isAdmin";
 
 export const ServiceRouter = express.Router();
 
-ServiceRouter.route("/").get(getServices).post(authenticateToken,adminMiddleware,postService);
-ServiceRouter.route("/:id").get(authenticateToken,getService).patch(authenticateToken,adminMiddleware,patchService).delete(authenticateToken,adminMiddleware,deleteService);
+ServiceRouter.route("/service").get(getServices).post(authenticateToken,adminMiddleware,postService);
+ServiceRouter.route("/service/:id").get(authenticateToken,getService).patch(authenticateToken,adminMiddleware,patchService).delete(authenticateToken,adminMiddleware,deleteService);

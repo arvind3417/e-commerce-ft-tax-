@@ -7,7 +7,6 @@ import { httpResponse } from "./helpers";
 import { userRouter } from "./routes/userRoutes";
 import { authRouter } from "./routes/authRoutes";
 import { productRouter } from "./routes/productRoutes";
-// import { cartController } from "./controllers/cartController";
 import { routeNotFound } from "./middleware/routeNotFound";
 import { errorHandler } from "./middleware/errorHandler";
 
@@ -31,17 +30,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes
-// app.get("/users/:userId/totalbill", billController)
-app.use('/users',cartRouter)
-app.use('/users',orderRouter)
 
-app.use('/users',billRouter)
-
-app.use(`${BASEURL}/services`, ServiceRouter);
-
-app.use(`${BASEURL}/products`, productRouter);
 app.use(`${BASEURL}/auth`, authRouter); 
-app.use(`${BASEURL}/users`, userRouter);
+app.use(`${BASEURL}/users`, userRouter,cartRouter,orderRouter,billRouter,productRouter,ServiceRouter);
 app.use(`${BASEURL}/admin`, productRouter,ServiceRouter,orderRouter);
 
 app.use("/ok", (_req, res) =>

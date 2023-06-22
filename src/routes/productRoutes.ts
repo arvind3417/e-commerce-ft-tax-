@@ -11,5 +11,5 @@ import { adminMiddleware } from "../middleware/isAdmin";
 
 export const productRouter = express.Router();
 
-productRouter.route("/").get(getProducts).post(authenticateToken,adminMiddleware,postProduct);
-productRouter.route("/:id").get(authenticateToken,getProduct).patch(authenticateToken,adminMiddleware,patchProduct).delete(authenticateToken,adminMiddleware,deleteProduct);
+productRouter.route("/product").get(getProducts).post(authenticateToken,adminMiddleware,postProduct);
+productRouter.route("/product/:id").get(authenticateToken,getProduct).patch(authenticateToken,adminMiddleware,patchProduct).delete(authenticateToken,adminMiddleware,deleteProduct);
