@@ -42,12 +42,12 @@ export const addcartController = asyncWrapper(
         item: new mongoose.Types.ObjectId(itemId),
         cartType: cartType as "Product" | "Service",
         quantity: _req.body.quantity || 1,
-      };
+      }; 
 
       user.cart.push(item);
       await user.save();
-      // _res.json(user);
-      _res.status(StatusCodes.OK).json(
+      // _res.json(user); 
+      _res.status(StatusCodes.CREATED).json(
         httpResponse(true, "Added successfully", {
          user
         })
