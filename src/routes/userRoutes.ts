@@ -10,8 +10,7 @@ import {
 
 export const userRouter = express.Router();
 
-// User Routes //
-// NOTE: User create route is not needed because it is handled by authRoutes
+
 userRouter
   .route("/personInfo")
   .get(authenticateToken, getUserInfo)

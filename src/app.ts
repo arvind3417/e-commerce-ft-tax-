@@ -17,6 +17,8 @@ import { PORT, BASEURL } from "./constants";
 import { connectDB } from "./db";
 import { billController } from "./controllers/billController";
 import { ServiceRouter } from "./routes/serviceRoutes";
+import { orderRouter } from "./routes/orderRoutes";
+
 import { cartRouter } from "./routes/cartRoutes";
 import { billRouter } from "./routes/billRoutes";
 
@@ -31,6 +33,8 @@ app.use(cors());
 // Routes
 // app.get("/users/:userId/totalbill", billController)
 app.use('/users',cartRouter)
+app.use('/users',orderRouter)
+
 app.use('/users',billRouter)
 
 app.use(`${BASEURL}/services`, ServiceRouter);
@@ -38,6 +42,8 @@ app.use(`${BASEURL}/services`, ServiceRouter);
 app.use(`${BASEURL}/products`, productRouter);
 app.use(`${BASEURL}/auth`, authRouter); 
 app.use(`${BASEURL}/users`, userRouter);
+app.use(`${BASEURL}/admin`, productRouter,ServiceRouter,orderRouter);
+
 app.use("/ok", (_req, res) =>
   res.status(200).send(httpResponse(true, "OK", {}))
 );
