@@ -13,7 +13,7 @@ export const getUserInfo = asyncWrapper(
     const user = await User.aggregate([
       {
         $match: {
-          _id: new mongoose.Types.ObjectId(_req.user),
+          _id: new mongoose.Types.ObjectId((<any>_req).user.userId),
         },
       },
       {
@@ -37,7 +37,7 @@ export const patchUser = asyncWrapper(
   async (_req: Request, _res: Response, _next: NextFunction) => {
     const user = await User.findOneAndUpdate(
       {
-        _id: _req.user,
+        _id: (<any>_req).user.userId,
       },
       [
         {
@@ -66,7 +66,7 @@ export const patchUser = asyncWrapper(
 
 export const deleteUser = asyncWrapper(
   async (_req: Request, _res: Response, _next: NextFunction) => {
-    const user = await User.deleteOne({ _id: _req.user });
+    const user = await User.deleteOne({ _id: (<any>_req).user.userId });
     if (user.deletedCount !== 1) {
       _next(new CustomError.NotFoundError("User not found"));
     } else {
@@ -79,7 +79,7 @@ export const deleteUser = asyncWrapper(
 
 export const resetPassword = asyncWrapper(
   async (_req: Request, _res: Response, _next: NextFunction) => {
-    const user = await User.findOne({ _id: _req.user });
+    const user = await User.findOne({ _id: (<any>_req).user.userId });
     if (!user) {
       return _next(new CustomError.NotFoundError("User not found"));
     }

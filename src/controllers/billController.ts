@@ -24,7 +24,7 @@ export const billController = asyncWrapper(
     try {
       
       // const { userId } = req.params;
-      const user = await User.findById(_req.user.userId);
+      const user = await User.findById((<any>_req).user.userId);
 if (!user) {
   return _next(new CustomErrors.NotFoundError("User not found"));
 
