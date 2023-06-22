@@ -15,7 +15,7 @@ export const addcartController = asyncWrapper(
     try {
       const {  itemId, cartType } = _req.params;
       // const {quantity} = _req.body
-      const user = await User.findById(_req.user.userId);
+      const user = await User.findById((<any>_req).user.userId);
 
       if (!user) {
   return _next(new CustomErrors.NotFoundError("User not found"));
@@ -68,7 +68,7 @@ export const removeCartItem = asyncWrapper(
   async (_req: Request, _res: Response, _next: NextFunction) => {
     try {
       const { itemId, cartType } = _req.params;
-      const user = await User.findById(_req.user.userId);
+      const user = await User.findById((<any>_req).user.userId);
 
       if (!user) {
         _res.status(StatusCodes.NOT_FOUND).json({ error: "User not found" });
