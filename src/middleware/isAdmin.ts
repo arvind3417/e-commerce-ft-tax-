@@ -7,7 +7,7 @@ export const adminMiddleware = async (
     _res: Response,
     _next: NextFunction
   ) => {
-    if (_req.user && _req.user.isAdmin === true) {
+    if ((<any>_req).user && (<any>_req).user.isAdmin === true) {
         _next();
       } else {
         _next(new CustomError.ForbiddenError("Unauthorized access"));

@@ -16,8 +16,8 @@ export const authenticateToken = async (
 
   try {
     const decoded = jwtUtils.verifyAccessToken(token);
-    _req.user = decoded;
-    _req.access_token = token;
+    (<any>_req).user = decoded;
+    (<any>_req).access_token = token;
     _next();
   } catch (err: any) {
     _next(new CustomError.UnauthorizedError(err.message));
