@@ -17,6 +17,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.13.7",
     "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
     "typescript": "^5.0.4"
   },
   "devDependencies": {
