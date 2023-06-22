@@ -43,7 +43,7 @@ const calculateTotal = (cart: any[]): number => {
 export const orderController = asyncWrapper(
   async (_req: Request, _res: Response, _next: NextFunction) => {
     try {
-      const user = await User.findById(_req.user.userId);
+      const user = await User.findById((<any>_req).user.userId);
 
       if (!user) {
   return _next(new CustomErrors.NotFoundError("User not found"));
