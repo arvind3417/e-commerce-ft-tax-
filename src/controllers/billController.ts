@@ -26,8 +26,18 @@ export const billController = asyncWrapper(
       // const { userId } = req.params;
       const user = await User.findById(_req.user.userId);
 if (!user) {
-  _res.status(StatusCodes.NOT_FOUND).json({ error: "User not found" });
-  return;
+  return _next(new CustomErrors.NotFoundError("User not found"));
+
+  // _res.status(StatusCodes.NOT_FOUND).json({ error: "User not found" });
+  // return;
+}
+
+if(user.cart.length ===0){
+  // _next(CustomErrors.NotFoundError)
+  return _next(new CustomErrors.NotFoundError("Cart is empty"));
+
+  // _res.status(StatusCodes.NOT_FOUND).json({ error: "Cart is Empty" });
+
 }
 
 const populateItems = async () => {
@@ -60,8 +70,12 @@ const populateItems = async () => {
 
 const populatedCart = await populateItems();
 const total = calculateTotal(populatedCart);
-
-_res.json({ items: populatedCart, total });      // tems: itemsWithTax, total });
+_res.status(StatusCodes.CREATED).json(
+  httpResponse(true, "User created successfully", {
+    items:populatedCart, total 
+  })
+);
+// _res.json({ items: populatedCart, total });      // tems: itemsWithTax, total });
     } catch (error) {
       _res.status(500).json({ error: "Error retrieving total bill" });
     }

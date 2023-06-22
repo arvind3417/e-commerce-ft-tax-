@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import * as CustomErrors from "../errors";
 
 import { User } from "../models/users";
 import { Order } from "../models/orders";
@@ -45,8 +46,8 @@ export const orderController = asyncWrapper(
       const user = await User.findById(_req.user.userId);
 
       if (!user) {
-        _res.status(StatusCodes.NOT_FOUND).json({ error: "User not found" });
-        return;
+  return _next(new CustomErrors.NotFoundError("User not found"));
+     
       }
 
       const populateProduct = Product.find({
@@ -95,12 +96,18 @@ export const orderController = asyncWrapper(
       user.cart = [];
       await user.save();
 
-      _res.json(order);
+      // _res.json(order);
+      _res.status(StatusCodes.OK).json(
+        httpResponse(true, "Added successfully", {
+         order
+        }));
     } catch (error: any) {
       console.log(error.message);
-      _res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        error: "Error creating the order",
-      });
+      _next(new CustomErrors.InternalServerError("Error creating the order"));
+
+      // _res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      //   error: "Error creating the order",
+      // });
     }
   }
 );
@@ -110,12 +117,17 @@ export const getAllOrders = asyncWrapper(
   async (_req: Request, _res: Response, _next: NextFunction) => {
     try {
       const orders = await Order.find();
-      _res.json(orders);
+      // _res.json(orders);
+      _res.status(StatusCodes.OK).json(
+        httpResponse(true, "Added successfully", {
+         orders
+        }));
     } catch (error: any) {
       console.log(error.message);
-      _res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        error: "Error retrieving orders",
-      });
+      _next(new CustomErrors.InternalServerError("Error retrieving orders"));
+      // _res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      //   error: "Error retrieving orders",
+      // });
     }
   }
 );

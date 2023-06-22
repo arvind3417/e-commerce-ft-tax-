@@ -18,20 +18,24 @@ export const addcartController = asyncWrapper(
       const user = await User.findById(_req.user.userId);
 
       if (!user) {
-        _res.status(StatusCodes.NOT_FOUND).json({ error: 'User not found' });
-        return;
+  return _next(new CustomErrors.NotFoundError("User not found"));
+
+        // _res.status(StatusCodes.NOT_FOUND).json({ error: 'User not found' });
+        // return;
       }
             const existingItem = user.cart.find((item) => item.item?.toString() === itemId && item.cartType === cartType);
 
       if (existingItem) {
-        _res.status(StatusCodes.BAD_REQUEST).json({ error: 'Item already exists in the cart' });
-        return;
+        // _res.status(StatusCodes.BAD_REQUEST).json({ error: 'Item already exists in the cart' });
+        return _next(new CustomErrors.BadRequestError("Item Already Exists"));;
       }
 
       const itemIdIsValid =  mongoose.Types.ObjectId.isValid(itemId);
       if (!itemIdIsValid) {
-        _res.status(StatusCodes.BAD_REQUEST).json({ error: 'Invalid item ID' });
-        return;
+        return _next(new CustomErrors.BadRequestError("Invalid Item ID"));;
+
+        // _res.status(StatusCodes.BAD_REQUEST).json({ error: 'Invalid item ID' });
+        // return;
       }
 
       const item: { item: mongoose.Types.ObjectId; cartType: "Product" | "Service";quantity: number } = {
@@ -42,12 +46,19 @@ export const addcartController = asyncWrapper(
 
       user.cart.push(item);
       await user.save();
-      _res.json(user);
+      // _res.json(user);
+      _res.status(StatusCodes.OK).json(
+        httpResponse(true, "Added successfully", {
+         user
+        })
+      );
     } catch (error:any) {
       console.log('====================================');
       console.log(error.message);
       console.log('====================================');
-      _res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Error adding item to cart' });
+      return _next(new CustomErrors.InternalServerError("Error adding item to cart"));;
+
+      // _res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Error adding item to cart' });
     }
   }
 );
