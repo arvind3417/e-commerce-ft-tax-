@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   cart: [{
     item: { type: mongoose.Schema.Types.ObjectId, refPath: 'cartType' },
     cartType: { type: String, enum: ['Product', 'Service'] },
-    // quantity: { type: Number, default: 1 },
+    quantity: { type: Number, default: 1 },
   }],
  
 });

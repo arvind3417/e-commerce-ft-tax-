@@ -7,7 +7,7 @@ import { httpResponse } from "./helpers";
 import { userRouter } from "./routes/userRoutes";
 import { authRouter } from "./routes/authRoutes";
 import { productRouter } from "./routes/productRoutes";
-import { cartController } from "./controllers/cartController";
+// import { cartController } from "./controllers/cartController";
 import { routeNotFound } from "./middleware/routeNotFound";
 import { errorHandler } from "./middleware/errorHandler";
 
@@ -15,6 +15,10 @@ import { PORT, BASEURL } from "./constants";
 
 
 import { connectDB } from "./db";
+import { billController } from "./controllers/billController";
+import { ServiceRouter } from "./routes/serviceRoutes";
+import { cartRouter } from "./routes/cartRoutes";
+import { billRouter } from "./routes/billRoutes";
 
 // Use express app 
 const app = express();
@@ -25,7 +29,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes
-app.post('/users/:userId/cart/:itemId/:cartType',cartController)
+// app.get("/users/:userId/totalbill", billController)
+app.use('/users',cartRouter)
+app.use('/users',billRouter)
+
+app.use(`${BASEURL}/services`, ServiceRouter);
+
 app.use(`${BASEURL}/products`, productRouter);
 app.use(`${BASEURL}/auth`, authRouter); 
 app.use(`${BASEURL}/users`, userRouter);
