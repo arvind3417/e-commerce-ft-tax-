@@ -14,7 +14,6 @@ import { PORT, BASEURL } from "./constants";
 
 
 import { connectDB } from "./db";
-import { billController } from "./controllers/billController";
 import { ServiceRouter } from "./routes/serviceRoutes";
 import { orderRouter } from "./routes/orderRoutes";
 
