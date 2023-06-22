@@ -19,6 +19,7 @@ import { orderRouter } from "./routes/orderRoutes";
 
 import { cartRouter } from "./routes/cartRoutes";
 import { billRouter } from "./routes/billRoutes";
+import { grantAdminAccessrouter } from "./routes/grant_Admin_Access";
 
 // Use express app 
 const app = express();
@@ -32,7 +33,7 @@ app.use(cors());
 
 app.use(`${BASEURL}/auth`, authRouter); 
 app.use(`${BASEURL}/users`, userRouter,cartRouter,orderRouter,billRouter,productRouter,ServiceRouter);
-app.use(`${BASEURL}/admin`, productRouter,ServiceRouter,orderRouter);
+app.use(`${BASEURL}/admin`, productRouter,ServiceRouter,orderRouter,grantAdminAccessrouter);
 
 app.use("/ok", (_req, res) =>
   res.status(200).send(httpResponse(true, "OK", {}))
